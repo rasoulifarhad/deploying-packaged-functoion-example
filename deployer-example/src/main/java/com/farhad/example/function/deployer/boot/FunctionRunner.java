@@ -27,5 +27,19 @@ public class FunctionRunner {
         };
 
     }
+
+    @Bean
+    public ApplicationRunner reverseRunner(FunctionCatalog catalog) {
+
+        return args -> {
+
+            		Function<String,String> reverseFunction =  catalog.lookup("reverseFunction");
+
+                    String param = "Hello";
+                    log.info("{} Uppercased To: {}", param ,reverseFunction.apply(param));
+
+        };
+
+    }
     
 }
