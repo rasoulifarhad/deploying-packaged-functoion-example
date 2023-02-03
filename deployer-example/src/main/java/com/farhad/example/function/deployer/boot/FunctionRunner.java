@@ -36,7 +36,7 @@ public class FunctionRunner {
             		Function<String,String> reverseFunction =  catalog.lookup("reverseFunction");
 
                     String param = "Hello";
-                    log.info("{} Uppercased To: {}", param ,reverseFunction.apply(param));
+                    log.info("{} reversed To: {}", param ,reverseFunction.apply(param));
 
         };
 
