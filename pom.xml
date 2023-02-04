@@ -17,7 +17,7 @@
         <modules>
                <module>deployer-example</module>
                <module>normal-uppercase-function-example</module>
-               <module>spring-boot-uppercase-function-example</module>
+               <module>simple-jar-uppercase-function-example</module>
         </modules>
     
 </project>
