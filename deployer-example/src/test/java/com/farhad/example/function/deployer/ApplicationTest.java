@@ -11,13 +11,21 @@ import reactor.core.publisher.Flux;
 import org.springframework.context.ApplicationContext;
 
 import  org.springframework.cloud.function.context.FunctionCatalog;
-
+import org.junit.jupiter.api.BeforeEach;
 import java.util.List;
 import java.util.function.Function;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ApplicationTest {
 
+
+   @BeforeEach
+   public void before() {
+
+        System.clearProperty("spring.cloud.function.location");
+        System.clearProperty("spring.cloud.function.function-class");
+        System.clearProperty("spring.cloud.function.definition");
+   }
 
    @Test 
    public void  testUpperCaseFunction() {
@@ -83,6 +91,27 @@ public class ApplicationTest {
  
      } 
  
+
+     @Test 
+     public void  testSimpleJarWithUpperCaseAsFunctionInFunctionsPackage() {
+  
+         String [] args = new String [] {
+                                  "--spring.cloud.function.location=/home/farhad/apps/my-examples/spring-cloud-function/deploying-packaged-functoion-example/simple-jar-uppercase-function-example/target/simple-jar-uppercase-function-example-0.0.1-SNAPSHOT.jar"
+         };
+         ApplicationContext context = SpringApplication.run(Application.class, args);
+             
+         FunctionCatalog functionCatalog = context.getBean(FunctionCatalog.class);
+         Function<Flux<String>,Flux<String>> uppercaseFunctionFlux = functionCatalog.lookup("uppercaseFunction");
+  
+         Flux<String> fluxResult =  uppercaseFunctionFlux.apply(Flux.just("Hello","by"));
  
+         List<String> result =  fluxResult.collectList().block();
+ 
+         assertThat(result.get(0)).isEqualTo("HELLO");
+         assertThat(result.get(1)).isEqualTo("BY");
+  
+      } 
+
+     
 
 }
