@@ -10,11 +10,11 @@ import lombok.extern.slf4j.Slf4j;
 
 import  org.springframework.cloud.function.context.FunctionCatalog;
 
-@Configuration
+// @Configuration
 @Slf4j
 public class FunctionRunner {
 
-    @Bean
+    // @Bean
     public ApplicationRunner uppercaseRunner(FunctionCatalog catalog) {
 
         return args -> {
@@ -28,7 +28,7 @@ public class FunctionRunner {
 
     }
 
-    @Bean
+    // @Bean
     public ApplicationRunner reverseRunner(FunctionCatalog catalog) {
 
         return args -> {

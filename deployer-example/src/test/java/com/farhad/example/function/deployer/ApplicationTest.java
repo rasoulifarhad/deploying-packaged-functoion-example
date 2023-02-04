@@ -133,5 +133,33 @@ public class ApplicationTest {
    
        } 
       
+       @Test 
+       public void  testBootJarWithConfigUpperCaseAsFunction() {
+    
+           String [] args = new String [] {
+                                    "--spring.cloud.function.location=/home/farhad/apps/my-examples/spring-cloud-function/deploying-packaged-functoion-example/bootjar-with-config-uppercase-function-example/target/bootjar-with-config-uppercase-function-example-0.0.1-SNAPSHOT-exec.jar",
+                                    "--spring.cloud.function.definition=uppercase;reverse"
+           };
+           ApplicationContext context = SpringApplication.run(Application.class, args);
+               
+           FunctionCatalog functionCatalog = context.getBean(FunctionCatalog.class);
+           Function<Flux<String>,Flux<String>> uppercaseFunctionFlux = functionCatalog.lookup("uppercase");
+    
+           Flux<String> fluxResult =  uppercaseFunctionFlux.apply(Flux.just("Hello","by"));
+   
+           List<String> result =  fluxResult.collectList().block();
+   
+           assertThat(result.get(0)).isEqualTo("HELLO");
+           assertThat(result.get(1)).isEqualTo("BY");
+
+           Function<Flux<String>,Flux<String>> reverseFunctionFlux = functionCatalog.lookup("reverse");
+           Flux<String> reverseFluxResult =  reverseFunctionFlux.apply(Flux.just("Hello","by"));
+   
+           List<String> reverseResult =  reverseFluxResult.collectList().block();
+           assertThat(reverseResult.get(0)).isEqualTo("olleH");
+           assertThat(reverseResult.get(1)).isEqualTo("yb");
+    
+        } 
+       
 
 }

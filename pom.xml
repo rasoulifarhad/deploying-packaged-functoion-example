@@ -19,6 +19,7 @@
                <module>normal-uppercase-function-example</module>
                <module>simple-jar-uppercase-function-example</module>
                <module>bootjar-no-config-uppercase-function-example</module>
+               <module>bootjar-with-config-uppercase-function-example</module>
         </modules>
     
 </project>
