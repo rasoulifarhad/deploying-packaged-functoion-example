@@ -112,6 +112,26 @@ public class ApplicationTest {
   
       } 
 
-     
+      @Test 
+      public void  testBootJarNoConfigUpperCaseAsFunction() {
+   
+          String [] args = new String [] {
+                                   "--spring.cloud.function.location=/home/farhad/apps/my-examples/spring-cloud-function/deploying-packaged-functoion-example/bootjar-no-config-uppercase-function-example/target/bootjar-no-config-uppercase-function-example-0.0.1-SNAPSHOT-exec.jar",
+                                   "--spring.cloud.function.function-class=com.farhad.example.function.uppercase.UppercaseFunction"
+          };
+          ApplicationContext context = SpringApplication.run(Application.class, args);
+              
+          FunctionCatalog functionCatalog = context.getBean(FunctionCatalog.class);
+          Function<Flux<String>,Flux<String>> uppercaseFunctionFlux = functionCatalog.lookup("uppercaseFunction");
+   
+          Flux<String> fluxResult =  uppercaseFunctionFlux.apply(Flux.just("Hello","by"));
+  
+          List<String> result =  fluxResult.collectList().block();
+  
+          assertThat(result.get(0)).isEqualTo("HELLO");
+          assertThat(result.get(1)).isEqualTo("BY");
+   
+       } 
+      
 
 }
